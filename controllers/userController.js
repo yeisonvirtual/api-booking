@@ -4,6 +4,8 @@ async function getUsers(req, res) {
 
   // request: http://localhost:8080/api/users?limit=5&page=1&field=id&value=1
 
+  if(req.user.type !== "admin") return res.status(400).json({ message:'No es admin' });
+  
   const { limit, page } = req.query;
 
   //const { field, value } = req.query;
@@ -67,11 +69,6 @@ async function updateUser (req, res) {
       type,
       active
     } = req.body;
-
-    // convertir string a booleano
-    // let activeBool = false;
-    // if (active==='true') activeBool = true;
-    activeBool = true;
 
     const user = await User.findOne({ _id: id });
     

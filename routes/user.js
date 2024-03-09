@@ -6,8 +6,8 @@ const { getUsers, getUser, deleteUser, updateUser } = require('../controllers/us
 
 // ruta protegidas por el middleware verifyToken
 userRouter.get('/', verifyToken, getUsers);
-userRouter.get('/:id', getUser);
-userRouter.post('/delete/:id', deleteUser);
-userRouter.post('/update/:id', updateUser);
+userRouter.get('/:id', verifyToken, getUser);
+userRouter.post('/delete/:id', verifyToken, deleteUser);
+userRouter.post('/update/:id', verifyToken, updateUser);
 
 module.exports = userRouter;
