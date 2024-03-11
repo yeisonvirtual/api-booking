@@ -1,5 +1,5 @@
 const Room = require('../models/Room');
-const fs = require('fs');
+//const fs = require('fs');
 
 async function addRoom (req, res) {
   
@@ -39,19 +39,19 @@ async function addRoom (req, res) {
   }
 }
 
-async function getRooms(req, res) {
+async function getRoom(req, res) {
 
-  // request: http://localhost:8080/api/rooms?limit=5&page=1&field=id&value=1
-  const { limit, page } = req.query;
-
-  //const { field, value } = req.query;
-
-  const options = {
-    limit: limit || 10,
-    page: page || 1
-  };
+  const { id } = req.params;
   
-  const rooms = await Room.paginate({}, options);
+  const room = await Room.findOne({ _id: id });
+
+  return res.status(200).json({ room });
+
+}
+
+async function getRooms(req, res) {
+  
+  const rooms = await Room.find();
 
   return res.status(200).json({ rooms });
 
@@ -59,5 +59,6 @@ async function getRooms(req, res) {
 
 module.exports = {
   addRoom,
+  getRoom,
   getRooms
 }

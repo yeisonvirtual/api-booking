@@ -4,7 +4,7 @@ async function getUsers(req, res) {
 
   // request: http://localhost:8080/api/users?limit=5&page=1&field=id&value=1
 
-  if(req.user.type !== "admin") return res.status(400).json({ message:'No es admin' });
+  if(req.user.type !== "admin") return res.status(400).json({ message: 'No es admin' });
   
   const { limit, page } = req.query;
 

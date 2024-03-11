@@ -12,14 +12,14 @@ const BookingSchema = new mongoose.Schema({
     ref: 'Users',
     required: true
   },
-  invoce: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Invoices',
-    required: true
-  },
   date: {
     type: Date,
     require: true
+  },
+  invoice: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Invoices',
+    required: true
   },
   status: {
     type: Number,
