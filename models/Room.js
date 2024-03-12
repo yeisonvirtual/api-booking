@@ -36,7 +36,7 @@ const RoomSchema = new mongoose.Schema({
 });
 
 RoomSchema.methods.setImgUrl = function setImgUrl(filename){
-  this.image = `http://localhost:8080/public/${filename}`;
+  this.image = `${process.env.API_URL}/public/${filename}`;
 }
 
 RoomSchema.plugin(mongoosePaginate);
