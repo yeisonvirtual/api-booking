@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require("bcrypt");
 const { sign } = require('jsonwebtoken');
+const  cookie = require('cookie');
 
 async function register (req, res) {
 
@@ -72,22 +73,8 @@ async function login (req, res) {
       const type = user.type;
       
       const jwt = sign({ id, name, email, type },'secret_key');
-      console.log(jwt);
 
-      // 120 minutos
-      const expireTime = 120 * 60000;
-
-      // res.set('token', jwt); // agregar a la header de la respuesta
-      
-      // res.cookie('token', jwt, { 
-      //   expires: new Date(Date.now() + expireTime), // expira en 20 minutos
-      //   sameSite: 'none', // enviar cookie a sitio de terceros
-      //   secure: true // obligatorio para sameSite=none
-      // }); // agregar a la cookie de la respuesta
-
-      console.log(user);
-
-      return res.status(201).json({ user: { id, name, email, type }, jwt: jwt });
+      return res.status(201).json({ user: { id, name, email, type }, token: jwt });
 
     } else {
 
