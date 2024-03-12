@@ -19,7 +19,7 @@ require('./db/mongodb');
 // para permitir solicitudes desde otro dominio
 app.use(cors({
   origin: process.env.FRONT_URL || 'http://localhost:3000', // dominio app frontend
-  credentials: true // permite enviar cookies
+  credentials: true, // permite enviar cookies
 }));
 
 // for parsing application/x-www-form-urlencoded

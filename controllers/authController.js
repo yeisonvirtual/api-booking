@@ -80,7 +80,8 @@ async function login (req, res) {
       //res.set('authorization', jwt); // agregar a la header de la respuesta
       res.cookie('token', jwt, { 
         expires: new Date(Date.now() + expireTime), // expira en 20 minutos
-        
+        sameSite: 'none',
+        secure: false
       }); // agregar a la cookie de la respuesta
 
       console.log(user);
