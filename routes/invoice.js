@@ -4,7 +4,7 @@ const verifyToken = require('../middleware/verifyToken');
 
 const { createInvoice, getInvoices, changeStatus } = require('../controllers/invoiceController');
 
-invoiceRouter.get('/', getInvoices);
+invoiceRouter.get('/', verifyToken, getInvoices);
 invoiceRouter.post('/create', verifyToken, createInvoice);
 invoiceRouter.post('/status/:id/:status', verifyToken, changeStatus);
 

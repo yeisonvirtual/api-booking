@@ -4,8 +4,8 @@ const verifyToken = require('../middleware/verifyToken');
 
 const { addBookings, getBookings, checkAvailability } = require('../controllers/bookingController');
 
-bookingRouter.get('/', getBookings);
-bookingRouter.post('/add', addBookings);
-bookingRouter.get('/check/:dateinit/:dateend', checkAvailability);
+bookingRouter.get('/', verifyToken, getBookings);
+bookingRouter.post('/add', verifyToken, addBookings);
+bookingRouter.get('/check/:dateinit/:dateend', verifyToken, checkAvailability);
 
 module.exports = bookingRouter;

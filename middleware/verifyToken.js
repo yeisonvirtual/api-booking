@@ -4,9 +4,11 @@ const { verify } = require('jsonwebtoken');
 const verifyToken = async (req, res, next) => {
 
   // con cookies
-  const { token } = await req.cookies;
+  //const { token } = await req.cookies;
 
-  console.log("REQUEST: ",req);
+  const { token } = req.headers;
+
+  console.log("Token headers: ",token);
 
   if (!token) return res.status(401).json({ error: "Acceso denegado: no hay token" });
   
@@ -20,13 +22,14 @@ const verifyToken = async (req, res, next) => {
     // const { payload } = await jwtVerify(token, secret);
 
     const user = verify(token, process.env.SECRET);
-    console.log(user);
+    console.log("user verify: ",user);
     
     // se actualiza la fecha de expiracion
     //payload.exp = Date.now() + 300000; // 5 minutos => 5 (min) * 60 (seg) * 1.000 (mili) = 300000
 
     // almacena la informacion del token en req.user
     req.user = user;
+    req.token = token;
 
     next(); // permite el acceso a la ruta protegida
 

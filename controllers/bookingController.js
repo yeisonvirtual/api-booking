@@ -10,40 +10,45 @@ async function addBookings (req, res) {
     dates // format = day/month/year
   } = req.body;
 
-  console.log("bo.body: ",req.body)
+  try {
 
-  const invoice = await Invoice.findOne({ _id: invoiceID });
+    const bookings = [];
 
-  const bookings = [];
+    const invoice = await Invoice.findOne({ _id: invoiceID });
 
-  dates.forEach(async(item)=>{
+    if(!invoice) return res.status(400).json({ message: 'Invoice not found' });
 
-    const array = item.split("/"); // return ['day','month','year']
+    dates.forEach(async(item)=>{
+
+      const array = item.split("/"); // return ['day','month','year']
+      
+      let day = array[0];
+      let month = array[1];
+      
+      if(Number(day)<10) day = "0"+day;
+      if(Number(month)<10) month = "0"+month;
+      
+      const date = new Date(`${array[2]}-${month}-${day}T00:00:00.000Z`);
+
+      const booking = Booking({
+        room,
+        user,
+        date,
+        invoice: invoice._id
+      });
+
+      const newBooking = await booking.save();
+      
+      bookings.push(newBooking);
     
-    let day = array[0];
-    let month = array[1];
-    
-    if(Number(day)<10) day = "0"+day;
-    if(Number(month)<10) month = "0"+month;
-    
-    const date = new Date(`${array[2]}-${month}-${day}T00:00:00.000Z`);
-    
-    //console.log("date: ",date);
-
-    const booking = Booking({
-      room,
-      user,
-      date,
-      invoice: invoice._id
     });
-    
-    const newBooking = await booking.save();
-    
-    bookings.push(newBooking);
-  
-  });
 
-  return res.status(200).json({bookings});
+    return res.status(200).json({bookings});
+    
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Error create bookings' });
+  }
 
 }
 

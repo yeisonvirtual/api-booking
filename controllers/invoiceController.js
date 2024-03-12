@@ -12,8 +12,6 @@ async function createInvoice (req, res) {
     reference
   } = req.body;
 
-  console.log(req.body);
-
   if (
     !roomID ||
     !userID ||
@@ -37,12 +35,11 @@ async function createInvoice (req, res) {
 
       const newInvoice = await invoice.save();
 
-      console.log(newInvoice);
-
       const response = await fetch(`${process.env.API_URL}/api/bookings/add`,{
       method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Token": req.token
       },
       body: JSON.stringify({
         room: roomID,
@@ -51,13 +48,7 @@ async function createInvoice (req, res) {
         invoiceID: newInvoice._id
       })
     });
-
-    console.log(response)
-
-    const data = await response.json();
-
-    console.log(data)
-
+    
     return res.status(201).json({ id: newInvoice._id });
       
     } catch (error) {
@@ -92,8 +83,6 @@ async function changeStatus (req, res) {
 
   console.log(id)
   console.log(status)
-
-  const e = Number(status)
 
   const invoiceUpdated = await Invoice.findOneAndUpdate({ _id: id },{ status },{
     new: true
