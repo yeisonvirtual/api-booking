@@ -79,8 +79,8 @@ async function login (req, res) {
 
       res.cookie('token', jwt, { 
         expires: new Date(Date.now() + expireTime), // expira en 20 minutos
-        sameSite: 'none', // enviar cookie a sitio de terceros
-        secure: true // obligatorio para sameSite=none
+        sameSite: 'lax', // enviar cookie a sitio de terceros por accion del usuario
+        secure: true // obligatorio para sameSite=lax
       }); // agregar a la cookie de la respuesta
 
       console.log(user);
