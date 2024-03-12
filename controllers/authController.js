@@ -74,14 +74,13 @@ async function login (req, res) {
       const jwt = sign({ id, name, email, type },'secret_key');
       console.log(jwt);
 
-      // 60 minutos
-      const expireTime = 60 * 60000;
+      // 120 minutos
+      const expireTime = 120 * 60000;
 
-      //res.set('authorization', jwt); // agregar a la header de la respuesta
       res.cookie('token', jwt, { 
         expires: new Date(Date.now() + expireTime), // expira en 20 minutos
-        sameSite: 'none',
-        secure: false
+        sameSite: 'none', // enviar cookie a sitio de terceros
+        secure: true // obligatorio para sameSite=none
       }); // agregar a la cookie de la respuesta
 
       console.log(user);
