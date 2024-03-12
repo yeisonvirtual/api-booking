@@ -6,6 +6,8 @@ const verifyToken = async (req, res, next) => {
   // con cookies
   const { token } = await req.cookies;
 
+  console.log("REQUEST: ",req);
+
   if (!token) return res.status(401).json({ error: "Acceso denegado: no hay token" });
   
   try {
