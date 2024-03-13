@@ -40,10 +40,12 @@ async function addBookings (req, res) {
       const newBooking = await booking.save();
       
       bookings.push(newBooking);
+
+      console.log("newBooking: ",newBooking);
     
     });
 
-    return res.status(200).json({bookings});
+    return res.status(201).json({ message: "Bookings created successfully"});
     
   } catch (error) {
     console.log(error);

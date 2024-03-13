@@ -37,7 +37,7 @@ async function createInvoice (req, res) {
 
       const newInvoice = await invoice.save();
 
-      const response = await fetch(`${process.env.API_URL}/api/bookings/add`,{
+      const resBookings = await fetch(`${process.env.API_URL}/api/bookings/add`,{
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -50,8 +50,15 @@ async function createInvoice (req, res) {
         invoiceID: newInvoice._id
       })
     });
-    
-    return res.status(201).json({ id: newInvoice._id });
+
+    const newBookings = await resBookings.json();
+
+    if (resBookings.status===201) {
+      console.log("Create Invoice: ",newInvoice);
+      return res.status(201).json({ id: newInvoice._id });
+    } else {
+      return res.status(500).json({ message: "Error create bookings" });
+    }
       
     } catch (error) {
       return res.status(500).json({ message: error.message });
