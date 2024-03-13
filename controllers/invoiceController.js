@@ -24,6 +24,8 @@ async function createInvoice (req, res) {
 
     try {
 
+      // falta chequear que no exista un invoice con la mismas fecha
+
       const invoice = Invoice({
         room: roomID,
         user: req.user.id,

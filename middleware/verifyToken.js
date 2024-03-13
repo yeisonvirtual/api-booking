@@ -13,21 +13,11 @@ const verifyToken = async (req, res, next) => {
   if (!token) return res.status(401).json({ error: "Acceso denegado: no hay token" });
   
   try {
-
-    // genera clave secreta
-    // const encoder = new TextEncoder();
-    // const secret = encoder.encode('secret_key');
     
-    // // verifica el token
-    // const { payload } = await jwtVerify(token, secret);
-
     const user = verify(token, process.env.SECRET);
     console.log("user verify: ",user);
-    
-    // se actualiza la fecha de expiracion
-    //payload.exp = Date.now() + 300000; // 5 minutos => 5 (min) * 60 (seg) * 1.000 (mili) = 300000
 
-    // almacena la informacion del token en req.user
+    // almacena la informacion del user y el token en la req
     req.user = user;
     req.token = token;
 

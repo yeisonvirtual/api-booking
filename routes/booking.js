@@ -6,6 +6,6 @@ const { addBookings, getBookings, checkAvailability } = require('../controllers/
 
 bookingRouter.get('/', verifyToken, getBookings);
 bookingRouter.post('/add', verifyToken, addBookings);
-bookingRouter.get('/check/:dateinit/:dateend', verifyToken, checkAvailability);
+bookingRouter.get('/check/:room/:dateinit/:dateend', verifyToken, checkAvailability);
 
 module.exports = bookingRouter;

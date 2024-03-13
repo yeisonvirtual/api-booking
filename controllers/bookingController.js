@@ -71,7 +71,9 @@ async function getBookings (req, res) {
 async function checkAvailability (req,res) {
   
   // dateformat = year-month-day
-  const { dateinit , dateend } = req.params;
+  const { room, dateinit , dateend } = req.params;
+
+  console.log("room: ",room)
 
   const date1 = dateinit.split("-"); // return [year, month, day]
   const date2 = dateend.split("-");
@@ -88,10 +90,9 @@ async function checkAvailability (req,res) {
       
       console.log("currentD: ",currentD)
 
-      const bookingFound = await Booking.findOne({ date: currentD });
+      const bookingFound = await Booking.findOne({ room, date: currentD });
 
       if(bookingFound){
-        console.log("encontro");
         console.log("foundDate: ",bookingFound)
 
         console.log(currentD.getTime()===bookingFound.date.getTime())
