@@ -36,6 +36,7 @@ const RoomSchema = new mongoose.Schema({
 });
 
 RoomSchema.methods.setImgUrl = function setImgUrl(filename){
+  console.log(`Store img: ${process.env.API_URL}/public/${filename}`);
   this.image = `${process.env.API_URL}/public/${filename}`;
 }
 
