@@ -1,5 +1,6 @@
 const Room = require('../models/Room');
 const fs = require('fs');
+const jimp = require('jimp');
 
 async function addRoom (req, res) {
   
@@ -28,7 +29,12 @@ async function addRoom (req, res) {
       room.setImgUrl(filename);
     }
 
-    console.log(room);
+    // resize image
+    const resResize = await fetch(`${process.env.API_URL}/api/rooms/resize/${req.file.filename}`);
+
+    const resizeJSON = await resResize.json();
+
+    console.log(resizeJSON);
 
     const roomStore = await room.save();
 
@@ -87,9 +93,32 @@ async function deleteRoom (req, res) {
   }
 }
 
+async function resizeImg(req, res) {
+
+  const { filename } = req.params;
+
+  try {
+
+    // Read the image.
+    const image = await jimp.read(`./uploads/${filename}`);
+
+    // Resize the image and overwrite
+    await image.resize(600, jimp.AUTO).quality(60).writeAsync(`./uploads/${filename}`);;
+
+    return res.status(200).json({ message: `${filename} resize successfully` });
+    
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  
+
+}
+
 module.exports = {
   addRoom,
   getRoom,
   getRooms,
-  deleteRoom
+  deleteRoom,
+  resizeImg
 }
