@@ -30,11 +30,9 @@ async function addRoom (req, res) {
     }
 
     // resize image
-    const resResize = await fetch(`${process.env.API_URL}/api/rooms/resize/${req.file.filename}`);
-
-    const resizeJSON = await resResize.json();
-
-    console.log(resizeJSON);
+    //const resResize = await fetch(`${process.env.API_URL}/api/rooms/resize/${req.file.filename}`);
+    // const resizeJSON = await resResize.json();
+    // console.log(resizeJSON);
 
     const roomStore = await room.save();
 
